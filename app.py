@@ -19,7 +19,7 @@ import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_chroma import Chroma
+from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
@@ -262,7 +262,7 @@ def build_index(file_bytes_list, file_names):
         os.unlink(tmp_path)
 
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-    vectorstore = Chroma.from_documents(all_chunks, embeddings)
+    vectorstore = InMemoryVectorStore.from_documents(all_chunks, embeddings)
     return vectorstore, len(all_chunks)
 
 

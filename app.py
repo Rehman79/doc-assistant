@@ -1,11 +1,11 @@
 """
-Doc Assistant — a RAG (Retrieval-Augmented Generation) chat app.
+Doc Assistant | a RAG (Retrieval-Augmented Generation) chat app.
 
 What it does:
   1. You upload one or more PDFs.
   2. The app splits them into chunks and turns each chunk into a vector (embedding).
   3. You chat with your docs. It finds the most relevant chunks and sends them to
-     GPT, which answers using ONLY those chunks — and shows you the source.
+     GPT, which answers using ONLY those chunks and shows you the source.
   4. If the answer isn't in the documents, it says so instead of making something up.
 
 Run it locally with:  streamlit run app.py
@@ -249,7 +249,7 @@ PROMPT = ChatPromptTemplate.from_messages([
      "You are a helpful assistant that answers questions about the user's uploaded "
      "documents. Use ONLY the context below to answer. The context is made of "
      "excerpts from the documents; it may have odd line breaks or placeholders in "
-     "brackets (such as a bracketed organization name) — treat those placeholders "
+     "brackets (such as a bracketed organization name) - treat those placeholders "
      "as the company. Read the context carefully and give a clear, complete answer "
      "drawn from it, summarizing in your own words. "
      "Only if the context contains nothing relevant to the question, reply exactly: "

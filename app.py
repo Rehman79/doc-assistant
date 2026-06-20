@@ -69,8 +69,8 @@ st.html("""
     border:1px solid rgba(255,255,255,.30); color:#fff; font-size:.68rem; font-weight:700;
     letter-spacing:.14em; text-transform:uppercase; padding:5px 13px; border-radius:999px; margin-bottom:14px;
   }
-  .hero h1 { margin:0; font-size:2.7rem; font-weight:800; letter-spacing:-1.2px; }
-  .hero p  { margin:10px 0 0; opacity:.95; font-size:1.05rem; max-width:560px; line-height:1.6; }
+  .hero h1 { margin:0; font-size:clamp(1.7rem, 6vw, 2.7rem); font-weight:800; letter-spacing:-1.2px; }
+  .hero p  { margin:10px 0 0; opacity:.95; font-size:clamp(.95rem, 3.4vw, 1.05rem); max-width:560px; line-height:1.6; }
   .hero .pills { margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
   .hero .pill {
     background:rgba(255,255,255,.14); backdrop-filter:blur(8px);
@@ -190,6 +190,25 @@ st.html("""
   /* Section heading */
   .sec { font-size:.78rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
          color:var(--ink-dim); margin:6px 0 2px; }
+
+  /* ===== Responsive: tablets & phones ===== */
+  @media (max-width: 820px) {
+    .block-container { padding-left:.6rem; padding-right:.6rem; }
+    .hero { padding:26px 22px; border-radius:18px; }
+    .metric-row { gap:12px; }
+    .metric { min-width:140px; padding:13px 14px; }
+    .metric .tile { width:40px; height:40px; font-size:1.1rem; }
+    .metric .val { font-size:1.25rem; }
+  }
+  @media (max-width: 560px) {
+    /* Stack the cards one per row so nothing is squished */
+    .metric-row, .feat-grid { flex-direction:column; }
+    .metric, .feat { width:100%; min-width:0; }
+    .bubble { max-width:88%; font-size:.94rem; }
+    .src-wrap { margin-left:0; }
+    .hero .pill { font-size:.72rem; padding:6px 11px; }
+    .welcome .big { font-size:2.1rem; }
+  }
 
   /* Scrollbar */
   ::-webkit-scrollbar { width:10px; height:10px; }

@@ -2,9 +2,9 @@
 
 > Chat with your company documents — every answer cites its exact source, and it never makes things up.
 
-Doc Assistant is an AI document assistant built on **Retrieval-Augmented Generation (RAG)**. Upload one or more PDFs (an employee handbook, a policy manual, product docs), ask questions in plain English, and get answers grounded in your files — complete with the source file and page number. Ask something that isn't in the documents and it honestly replies *"I couldn't find that in the documents"* instead of guessing.
+Doc Assistant is an AI document assistant built on **Retrieval-Augmented Generation (RAG)**. Upload one or more PDFs (an employee handbook, a policy manual, product docs), ask questions in plain English, and get answers grounded in your files complete with the source file and page number. Ask something that isn't in the documents and it honestly replies *"I couldn't find that in the documents"* instead of guessing.
 
-🔗 **Live demo:** _add your Streamlit link here_
+🔗 **Live demo:** https://doc-assistant-l.streamlit.app
 
 ---
 
@@ -19,17 +19,6 @@ Doc Assistant is an AI document assistant built on **Retrieval-Augmented Generat
 ---
 
 ## 🧠 How it works
-
-```
-PDF  →  split into chunks  →  embed each chunk (vectors)  →  store in a vector index
-                                                                      │
-Question  →  embed  →  find the most similar chunks  ─────────────────┘
-                                   │
-                       send chunks + question to GPT
-                                   │
-                    grounded answer  +  source citations
-```
-
 1. **Load & chunk** — PDFs are read and split into overlapping ~1,000-character chunks.
 2. **Embed** — each chunk is converted to a vector with OpenAI `text-embedding-3-small`.
 3. **Retrieve** — the question is embedded and the 4 most relevant chunks are pulled from an in-memory vector store.
@@ -70,23 +59,6 @@ streamlit run app.py
 ```
 
 The app opens at `http://localhost:8501`. Paste your OpenAI key when prompted, upload a PDF, and start asking.
-
----
-
-## ☁️ Deploy on Streamlit Community Cloud (free)
-
-1. Push this repo to GitHub (make sure `app.py`, `requirements.txt`, and `.streamlit/config.toml` are all included).
-2. Go to [share.streamlit.io](https://share.streamlit.io) → **Create app** → select your repo, branch `main`, main file `app.py`.
-3. Under **Advanced settings → Secrets**, add your key so visitors don't need their own:
-   ```toml
-   OPENAI_API_KEY = "sk-your-key-here"
-   ```
-4. (Recommended) Set the **Python version to 3.12** in Advanced settings for the most stable build.
-5. Click **Deploy**.
-
-When a key is set in Secrets, the in-app key box is hidden automatically and your key is used for all requests.
-
-> 💡 **Cost tip:** Set a monthly spend cap at *OpenAI → Settings → Limits* (e.g. $5). Each question costs only a fraction of a cent, but a cap protects you from surprises.
 
 ---
 

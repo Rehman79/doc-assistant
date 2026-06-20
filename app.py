@@ -26,7 +26,8 @@ from langchain_core.output_parsers import StrOutputParser
 # ----------------------------------------------------------------------------
 # Page setup + styling
 # ----------------------------------------------------------------------------
-st.set_page_config(page_title="Doc Assistant", page_icon="📄", layout="wide")
+st.set_page_config(page_title="Doc Assistant", page_icon="📄", layout="centered",
+                   initial_sidebar_state="collapsed")
 
 st.html("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,6 +42,9 @@ st.html("""
   }
   html, body, [class*="css"] { font-family:'Plus Jakarta Sans', sans-serif; }
   #MainMenu, footer, header [data-testid="stToolbar"] { visibility:hidden; }
+  /* No sidebar in this app */
+  section[data-testid="stSidebar"], [data-testid="collapsedControl"],
+  [data-testid="stSidebarCollapsedControl"] { display:none !important; }
 
   /* Atmospheric background */
   .stApp {
@@ -317,63 +321,37 @@ def sources_html(docs):
 
 
 # ----------------------------------------------------------------------------
-# Sidebar — setup + status
+# Setup — all on the main screen (no sidebar)
 # ----------------------------------------------------------------------------
-with st.sidebar:
-    st.html("""
-    <div class="brand">
-      <div class="logo">📄</div>
-      <div><div class="name">Doc Assistant</div>
-      <div class="tag">Premium AI Analysis</div></div>
-    </div>
-    <div class="navlist">
-      <div class="item active">📊 Dashboard</div>
-      <div class="item">📚 Library</div>
-      <div class="item">🔎 Analysis</div>
-      <div class="item">⚙️ Settings</div>
-    </div>
-    """)
-
-    st.markdown("**SETUP**")
-    if not api_key:
-        api_key = st.text_input("OpenAI API key", type="password",
-                                help="Starts with sk-… Used only in your session.")
-        if api_key:
-            st.success("Key loaded ✓")
-    else:
-        st.success("API key loaded ✓")
-
-    uploaded = st.file_uploader("Upload Document(s)", type="pdf",
-                                accept_multiple_files=True)
-
-    st.divider()
-    show_debug = st.toggle("🔍 Show sources / debug", value=False)
-    if st.button("🗑️ Clear chat"):
-        st.session_state.messages = []
-        st.rerun()
-
+# 1) API key (only shown if not already provided via secrets when deployed)
+if not api_key:
+    api_key = st.text_input("🔑 OpenAI API key", type="password",
+                            help="Starts with sk-… Used only in your session.")
 os.environ["OPENAI_API_KEY"] = api_key or ""
 
-# ----------------------------------------------------------------------------
-# Empty states
-# ----------------------------------------------------------------------------
 if not api_key:
     st.html("""
     <div class="welcome">
       <div class="step">① Step 1</div>
       <div class="big">🔑</div>
       <h2>Add your OpenAI key to begin</h2>
-      <p>Paste your API key in the sidebar. It stays in your session and is never stored.</p>
+      <p>Paste your API key in the box above. It stays in your session and is never stored.</p>
     </div>
     """)
     st.stop()
+
+# 2) Upload on the main screen
+st.html('<div class="sec">📥 Upload your documents</div>')
+uploaded = st.file_uploader("Upload PDF document(s)", type="pdf",
+                            accept_multiple_files=True,
+                            label_visibility="collapsed")
 
 if not uploaded:
     st.html("""
     <div class="welcome">
       <div class="step">② Step 2</div>
       <h2>Upload a document to start chatting</h2>
-      <p>Drop a PDF in the sidebar — a handbook, policy manual, or product doc — and ask anything.</p>
+      <p>Drop a PDF above — a handbook, policy manual, or product doc — and ask anything.</p>
     </div>
     <div class="feat-grid">
       <div class="feat"><div class="ic">📥</div><h4>Upload</h4>
@@ -415,6 +393,13 @@ st.html(f"""
     <div><div class="lbl">Sources / Answer</div><div class="val">4</div></div></div>
 </div>
 """)
+
+# Controls row (replaces the old sidebar toggle + button)
+ctl1, ctl2 = st.columns([3, 1])
+show_debug = ctl1.toggle("🔍 Show sources / debug", value=False)
+if ctl2.button("🗑️ Clear chat"):
+    st.session_state.messages = []
+    st.rerun()
 
 # ----------------------------------------------------------------------------
 # Chat

@@ -1,6 +1,6 @@
 # 📄 Doc Assistant
 
-> Chat with your company documents — every answer cites its exact source, and it never makes things up.
+> Chat with your company documents every answer cites its exact source, and it never makes things up.
 
 Doc Assistant is an AI document assistant built on **Retrieval-Augmented Generation (RAG)**. Upload one or more PDFs (an employee handbook, a policy manual, product docs), ask questions in plain English, and get answers grounded in your files complete with the source file and page number. Ask something that isn't in the documents and it honestly replies *"I couldn't find that in the documents"* instead of guessing.
 
